@@ -28,7 +28,7 @@ names_dict = {'Goals Added': 'Total g+/90', 'Claiming': 'g+/90 by claiming',
 df = df.rename(names_dict, axis = 1)
 players = df['Player'].unique().tolist()
 years = df['Year'].unique().tolist()
-
+minutes = df['Minutes']
 # seasons played
 seasons_played = []
 for player in players:
@@ -42,8 +42,7 @@ player_selection = st.multiselect('Player:',
                                     default=['Abby Smith','Jane Campbell', 'Kailen Sheridan'])
 
 time_type_selection = st.selectbox(
-     'Time', ('Year', 'Seasons played'))
-
+     'X axis', ('Year', 'Seasons played'))
 if time_type_selection == 'Year':
     time_selection = st.slider('Years:',
                         min_value= min(years),
@@ -54,7 +53,9 @@ else:
                         min_value= min(seasons_played),
                         max_value= max(seasons_played),
                         value=(min(seasons_played), max(seasons_played)))
-    
+
+selected_minutes_filter = st.select_slider('Min. minutes played:',
+                        list(range(max(minutes))), value=0)    
 column_selection = option = st.selectbox(
      'Stat:', ('Total goals added', 'Minutes', 'Claiming', 'Fielding', 'Handling', 'Passing', 'Shotstopping', 'Sweeping'))
 if column_selection == 'Total goals added':
@@ -63,6 +64,7 @@ if column_selection == 'Total goals added':
 # Filter df with selected options 
 mask = (df[time_type_selection].between(*time_selection)) & (df['Player'].isin(player_selection))   
 filtered_df = df[mask]
+filtered_df = filtered_df[filtered_df['Minutes'] >= selected_minutes_filter]
 # --- PLOT
 line = px.line(filtered_df, x = time_type_selection, y = names_dict[column_selection], color = 'Player', markers = True)
 st.plotly_chart(line)
