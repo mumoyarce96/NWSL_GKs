@@ -8,7 +8,7 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 
-filename = 'american_soccer_analysis_nwsl_goals-added_goalkeepers_2022-05-02.csv'
+filename = 'american_soccer_analysis_nwsl_goals-added_goalkeepers_2022-05-07.csv'
 df = pd.read_csv(filename).drop('Unnamed: 0', axis = 1)
 df = df.sort_values(by = ['Player', 'Season']).reset_index(drop = True)
 
@@ -24,7 +24,7 @@ for col in df:
 names_dict = {'Goals Added': 'Total g+/90', 'Claiming': 'g+/90 by claiming',
               'Fielding': 'g+/90 by fielding', 'Handling': 'g+/90 by handling',
               'Passing': 'g+/90 by passing', 'Shotstopping': 'g+/90 by shotstopping',
-              'Sweeping': 'g+/90 by sweeping', 'Season': 'Year'}
+              'Sweeping': 'g+/90 by sweeping', 'Season': 'Year', 'Minutes': 'Minutes'}
 df = df.rename(names_dict, axis = 1)
 players = df['Player'].unique().tolist()
 years = df['Year'].unique().tolist()
