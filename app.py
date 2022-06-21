@@ -8,13 +8,12 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 
-filename = 'american_soccer_analysis_nwsl_goals-added_goalkeepers_2022-05-07.csv'
+filename = 'american_soccer_analysis_nwsl_goals-added_goalkeepers_2022-06-21.csv'
 df = pd.read_csv(filename).drop('Unnamed: 0', axis = 1)
 df = df.sort_values(by = ['Player', 'Season']).reset_index(drop = True)
 
 st.set_page_config(page_title='NWSL GKs')
 st.header('NWSL GKs')
-#st.subheader('Was the tutorial helpful?')
 
 # --- DF MANIPULATION
 g_cols = ('Goals Added', 'Claiming', 'Fielding', 'Handling', 'Passing', 'Shotstopping', 'Sweeping')
